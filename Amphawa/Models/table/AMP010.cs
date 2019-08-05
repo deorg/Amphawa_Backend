@@ -5,11 +5,11 @@ using System.Web;
 
 namespace Amphawa.Models.table
 {
-    #region table AMP020
-    public class Department
+    #region table AMP010
+    public class AMP010
     {
-        public string dept_id { get; set; }
-        public string dept_name { get; set; }
+        public string cate_id { get; set; }
+        public string cate_name { get; set; }
     }
     #endregion
 }

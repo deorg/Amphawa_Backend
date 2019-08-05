@@ -190,12 +190,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\table\Category.cs" />
-    <Compile Include="Models\table\Department.cs" />
-    <Compile Include="Models\table\Employee.cs" />
-    <Compile Include="Models\table\Job.cs" />
-    <Compile Include="Models\table\JobCategory.cs" />
-    <Compile Include="Models\table\Section.cs" />
+    <Compile Include="Models\api\Category.cs" />
+    <Compile Include="Models\api\Job.cs" />
+    <Compile Include="Models\api\JobGroup.cs" />
+    <Compile Include="Models\table\AMP010.cs" />
+    <Compile Include="Models\table\AMP020.cs" />
+    <Compile Include="Models\table\AMP030.cs" />
+    <Compile Include="Models\table\AMP100.cs" />
+    <Compile Include="Models\table\AMP101.cs" />
+    <Compile Include="Models\table\AMP021.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Job.cs" />
     <Compile Include="Startup.cs" />
@@ -254,7 +257,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
