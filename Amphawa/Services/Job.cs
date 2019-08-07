@@ -237,55 +237,6 @@ namespace Amphawa.Services
                 }
             }
         }
-        //public List<AMP100> getJob()
-        //{
-        //    using (var conn = new OracleConnection(_connStr))
-        //    {
-        //        try
-        //        {
-        //            conn.Open();
-        //            using (var cmd = new OracleCommand(Constant.SqlCmd.AMP100.getAll, conn) { CommandType = CommandType.Text })
-        //            {
-        //                var reader = cmd.ExecuteReader();
-        //                if (reader.HasRows)
-        //                {
-        //                    List<AMP100> data = new List<AMP100>();
-        //                    while (reader.Read())
-        //                    {
-        //                        data.Add(new AMP100
-        //                        {
-        //                            job_id = reader.GetInt32(0),
-        //                            job_date = reader[1] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(1),
-        //                            job_desc = reader[2] == DBNull.Value ? string.Empty : reader.GetString(2),
-        //                            solution = reader[3] == DBNull.Value ? string.Empty : reader.GetString(3),
-        //                            dept_id = reader[4] == DBNull.Value ? string.Empty : reader.GetString(4),
-        //                            sect_id = reader[5] == DBNull.Value ? string.Empty : reader.GetString(5),
-        //                            device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
-        //                            created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
-        //                            created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8)
-        //                        });
-        //                    }
-        //                    cmd.Dispose();
-        //                    reader.Dispose();
-        //                    return data;
-        //                }
-        //                cmd.Dispose();
-        //                reader.Dispose();
-        //                return null;
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine($"Get Jobs error => {e.Message}");
-        //            return null;
-        //        }
-        //        finally
-        //        {
-        //            conn.Close();
-        //            conn.Dispose();
-        //        }
-        //    }
-        //}
         public AMP100 getJobById(int job_id)
         {
             using (var conn = new OracleConnection(_connStr))

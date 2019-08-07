@@ -202,7 +202,9 @@
     <Compile Include="Models\table\AMP101.cs" />
     <Compile Include="Models\table\AMP021.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Department.cs" />
     <Compile Include="Services\Job.cs" />
+    <Compile Include="Services\Section.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
