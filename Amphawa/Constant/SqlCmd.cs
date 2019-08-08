@@ -17,7 +17,7 @@ namespace Amphawa.Constant
         }
         public static class AMP020
         {
-            public const string getAll = "select dept_id, dept_name from amp020";
+            public const string getAll = "select dept_id, dept_name from amp020 order by dept_id";
             public const string getById = "select dept_id, dept_name from amp020 where dept_id = :dept_id";
             public const string add = "insert into amp020(dept_id, dept_name) values(:dept_id, :dept_name)";
             public const string update = "update amp020 set dept_id = :new_dept_id, dept_name = :new_dept_name where dept_id = :dept_id";
