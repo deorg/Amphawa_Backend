@@ -318,7 +318,7 @@ namespace Amphawa.Services
                 }
             }
         }
-        public int updateJob(AMP100 value)
+        public int updateJob(m_Job value)
         {
             using (var conn = new OracleConnection(_connStr))
             {

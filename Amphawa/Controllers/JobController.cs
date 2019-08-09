@@ -134,7 +134,7 @@ namespace Amphawa.Controllers
             }
         }
         [Route("api/job/update")]
-        public IHttpActionResult PostUpdateJob([FromBody]AMP100 value)
+        public IHttpActionResult PostUpdateJob([FromBody]m_Job value)
         {
             try
             {
