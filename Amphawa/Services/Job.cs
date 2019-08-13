@@ -205,8 +205,8 @@ namespace Amphawa.Services
                                     job_date = reader[1] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(1),
                                     job_desc = reader[2] == DBNull.Value ? string.Empty : reader.GetString(2),
                                     solution = reader[3] == DBNull.Value ? string.Empty : reader.GetString(3),
-                                    dept_id = reader[4] == DBNull.Value ? string.Empty : reader.GetString(4),
-                                    sect_id = reader[5] == DBNull.Value ? string.Empty : reader.GetString(5),
+                                    dept_id = reader[4] == DBNull.Value ? string.Empty : getDeptById(reader.GetString(4)).dept_name,
+                                    sect_id = reader[5] == DBNull.Value ? string.Empty : getSectById(reader.GetString(5)).sect_name,
                                     device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
                                     created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
                                     created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8)
@@ -257,7 +257,7 @@ namespace Amphawa.Services
                                 job_date = reader[1] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(1),
                                 job_desc = reader[2] == DBNull.Value ? string.Empty : reader.GetString(2),
                                 solution = reader[3] == DBNull.Value ? string.Empty : reader.GetString(3),
-                                dept_id = reader[4] == DBNull.Value ? string.Empty : reader.GetString(4),
+                                dept_id = reader[4] == DBNull.Value ? string.Empty : reader.GetString(4) + " " + getDeptById(reader.GetString(4)),
                                 sect_id = reader[5] == DBNull.Value ? string.Empty : reader.GetString(5),
                                 device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
                                 created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
@@ -440,7 +440,7 @@ namespace Amphawa.Services
                             List<string> data = new List<string>();
                             while (reader.Read())
                             {
-                                data.Add(reader[1] == DBNull.Value ? string.Empty : reader.GetString(1));
+                                data.Add(reader[1] == DBNull.Value ? string.Empty : getCategoryById(reader.GetString(1)).cate_name);
                             }
                             cmd.Dispose();
                             reader.Dispose();
@@ -515,6 +515,93 @@ namespace Amphawa.Services
                 {
                     Console.WriteLine($"Delete job group by id error => {e.Message}");
                     return 0;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
+        #endregion
+
+        #region Department
+        public AMP020 getDeptById(string dept_id)
+        {
+            using (var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using (var cmd = new OracleCommand(Constant.SqlCmd.AMP020.getById, conn) { CommandType = CommandType.Text })
+                    {
+                        cmd.Parameters.Add("dept_id", dept_id);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            AMP020 data = new AMP020
+                            {
+                                dept_id = reader.GetString(0),
+                                dept_name = reader.GetString(1)
+                            };
+                            cmd.Dispose();
+                            reader.Dispose();
+                            return data;
+                        }
+                        cmd.Dispose();
+                        reader.Dispose();
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Get category by id error => {e.Message}");
+                    return null;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
+        #endregion
+
+        #region Section
+        public AMP021 getSectById(string sect_id)
+        {
+            using (var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using (var cmd = new OracleCommand(Constant.SqlCmd.AMP021.getById, conn) { CommandType = CommandType.Text })
+                    {
+                        cmd.Parameters.Add("sect_id", sect_id);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            AMP021 data = new AMP021
+                            {
+                                dept_id = reader.GetString(0),
+                                sect_id = reader.GetString(1),
+                                sect_name = reader.GetString(2)
+                            };
+                            cmd.Dispose();
+                            reader.Dispose();
+                            return data;
+                        }
+                        cmd.Dispose();
+                        reader.Dispose();
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Get category by id error => {e.Message}");
+                    return null;
                 }
                 finally
                 {
