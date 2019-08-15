@@ -17,6 +17,7 @@ namespace Amphawa.Models.table
         public string device_no { get; set; }
         public string created_by { get; set; }
         public DateTime? created_time { get; set; }
+        public string job_status { get; set; }
     }
     #endregion
 }

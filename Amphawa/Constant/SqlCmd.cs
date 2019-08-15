@@ -42,11 +42,11 @@ namespace Amphawa.Constant
         }
         public static class AMP100
         {
-            public const string getAll = "select job_id, job_date, job_desc, solution, dept_id, sect_id, device_no, created_by, created_time from amp100 order by job_date desc";
+            public const string getAll = "select job_id, job_date, job_desc, solution, dept_id, sect_id, device_no, created_by, created_time, job_status from amp100 order by job_date desc";
             public const string getById = "select job_id, job_date, job_desc, solution, dept_id, sect_id, device_no, created_by, created_time from amp100 where job_id = :job_id";
-            public const string add = @"insert into amp100(job_date, job_desc, solution, dept_id, sect_id, device_no, created_by) 
-                                           values(:job_date, :job_desc, :solution, :dept_id, :sect_id, :device_no, :created_by) returning job_id into :job_id";
-            public const string update = @"update amp100 set job_date = :job_date, job_desc = :job_desc, solution = :solution, dept_id = :dept_id, sect_id = :sect_id, device_no = :device_no, created_by = :created_by
+            public const string add = @"insert into amp100(job_date, job_desc, solution, dept_id, sect_id, device_no, created_by, job_status) 
+                                           values(:job_date, :job_desc, :solution, :dept_id, :sect_id, :device_no, :created_by, :job_status) returning job_id into :job_id";
+            public const string update = @"update amp100 set job_date = :job_date, job_desc = :job_desc, solution = :solution, dept_id = :dept_id, sect_id = :sect_id, device_no = :device_no, created_by = :created_by, job_status = :job_status
                                                      where job_id = :job_id";
             public const string delete = "delete amp100 where job_id = :job_id";
         }

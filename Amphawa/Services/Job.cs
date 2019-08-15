@@ -205,11 +205,12 @@ namespace Amphawa.Services
                                     job_date = reader[1] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(1),
                                     job_desc = reader[2] == DBNull.Value ? string.Empty : reader.GetString(2),
                                     solution = reader[3] == DBNull.Value ? string.Empty : reader.GetString(3),
-                                    dept_id = reader[4] == DBNull.Value ? string.Empty : getDeptById(reader.GetString(4)).dept_name,
-                                    sect_id = reader[5] == DBNull.Value ? string.Empty : getSectById(reader.GetString(5)).sect_name,
+                                    dept_id = reader[4] == DBNull.Value ? string.Empty : getDeptById(reader.GetString(4)).dept_id + " " + getDeptById(reader.GetString(4)).dept_name,
+                                    sect_id = reader[5] == DBNull.Value ? string.Empty : getSectById(reader.GetString(5)).sect_id + " " + getSectById(reader.GetString(5)).sect_name,
                                     device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
                                     created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
-                                    created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8)
+                                    created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8),
+                                    job_status = reader[9] == DBNull.Value ? string.Empty : reader.GetString(9)
                                 });
                             }
                             foreach(var j in data)
@@ -261,7 +262,8 @@ namespace Amphawa.Services
                                 sect_id = reader[5] == DBNull.Value ? string.Empty : reader.GetString(5),
                                 device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
                                 created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
-                                created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8)
+                                created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8),
+                                job_status = reader[9] == DBNull.Value ? string.Empty : reader.GetString(9)
                             };
                             cmd.Dispose();
                             reader.Dispose();
@@ -300,6 +302,7 @@ namespace Amphawa.Services
                         cmd.Parameters.Add("sect_id", value.sect_id);
                         cmd.Parameters.Add("device_no", value.device_no);
                         cmd.Parameters.Add("created_by", value.created_by);
+                        cmd.Parameters.Add("job_status", value.job_status);
                         cmd.Parameters.Add(new OracleParameter { ParameterName = ":job_id", OracleDbType = OracleDbType.Int32, Direction = ParameterDirection.Output});
                         var result = cmd.ExecuteNonQuery();
                         cmd.Dispose();
@@ -334,6 +337,7 @@ namespace Amphawa.Services
                         cmd.Parameters.Add("sect_id", value.sect_id);
                         cmd.Parameters.Add("device_no", value.device_no);
                         cmd.Parameters.Add("created_by", value.created_by);
+                        cmd.Parameters.Add("job_status", value.job_status);
                         cmd.Parameters.Add("job_id", value.job_id);
                         var result = cmd.ExecuteNonQuery();
                         cmd.Dispose();

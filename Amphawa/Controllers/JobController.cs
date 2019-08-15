@@ -123,7 +123,7 @@ namespace Amphawa.Controllers
                         group.job_id = result;
                         group.cate_id = value.cate_id.ToArray();
                         var res = _job.addJobGroup(group);
-                        return Ok(res);
+                        return Ok(result);
                     }
                 }
                 return Ok(result);
