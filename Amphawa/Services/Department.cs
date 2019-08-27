@@ -10,7 +10,7 @@ namespace Amphawa.Services
 {
     public class Department
     {
-        private const string _connStr = Constant.Database.Production.Connstring;
+        private const string _connStr = Constant.Database.Development.Connstring;
 
         public List<AMP020> getDept()
         {

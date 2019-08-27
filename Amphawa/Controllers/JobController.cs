@@ -3,9 +3,11 @@ using Amphawa.Models.table;
 using Amphawa.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace Amphawa.Controllers
@@ -132,6 +134,29 @@ namespace Amphawa.Controllers
             {
                 return InternalServerError(e);
             }
+        }
+        [Route("api/job/photo/add")]
+        public IHttpActionResult PostPhotos()
+        {
+            try
+            {
+                var files = HttpContext.Current.Request.Files.Count > 0 ?
+                HttpContext.Current.Request.Files : null;
+                if (files != null)
+                {
+                    for (int i = 0; i<files.Count; i++)
+                    {
+                        var fileName = Path.GetFileName(files[i].FileName);
+                        var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Images/jobs"), fileName);
+                        files[i].SaveAs(path);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("error => " + e.Message);
+            }
+            return Ok();
         }
         [Route("api/job/update")]
         public IHttpActionResult PostUpdateJob([FromBody]m_Job value)
