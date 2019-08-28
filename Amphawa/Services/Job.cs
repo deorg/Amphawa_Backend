@@ -11,7 +11,7 @@ namespace Amphawa.Services
 {
     public class Job
     {
-        private const string _connStr = Constant.Database.Development.Connstring;
+        private const string _connStr = Constant.Database.Production.Connstring;
 
         #region Category
         public List<AMP010> getCategories()
@@ -208,6 +208,7 @@ namespace Amphawa.Services
                                     dept_id = reader[4] == DBNull.Value ? string.Empty : getDeptById(reader.GetString(4)).dept_id + " " + getDeptById(reader.GetString(4)).dept_name,
                                     sect_id = reader[5] == DBNull.Value ? string.Empty : getSectById(reader.GetString(5)).sect_id + " " + getSectById(reader.GetString(5)).sect_name,
                                     device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
+                                    images = getImageByJobId(reader.GetInt32(0)),
                                     created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
                                     created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8),
                                     job_status = reader[9] == DBNull.Value ? string.Empty : reader.GetString(9)
@@ -374,6 +375,109 @@ namespace Amphawa.Services
                 catch (Exception e)
                 {
                     Console.WriteLine($"Update job by id error => {e.Message}");
+                    return 0;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
+        #endregion
+
+        #region Images
+        public List<AMP102> getImageByJobId(int job_id)
+        {
+            using(var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using (var cmd = new OracleCommand(Constant.SqlCmd.AMP102.getByJobId, conn) { CommandType = CommandType.Text })
+                    {
+                        cmd.Parameters.Add("job_id", job_id);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            List<AMP102> data = new List<AMP102>();
+                            while (reader.Read())
+                            {
+                                data.Add(new AMP102 { job_id = reader.GetInt32(0), img_name = reader.GetString(1), img_url = reader.GetString(2) });
+                            }
+                            cmd.Dispose();
+                            reader.Dispose();
+                            return data;
+                        }
+                        cmd.Dispose();
+                        reader.Dispose();
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Add photo by job id error => {e.Message}");
+                    return null;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
+        public int addImage(List<AMP102> images)
+        {
+            using (var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using (var cmd = new OracleCommand(Constant.SqlCmd.AMP102.add, conn) { CommandType = CommandType.Text })
+                    {
+                        int count = 0;
+                        foreach (var image in images)
+                        {
+                            cmd.Parameters.Add("job_id", image.job_id);
+                            cmd.Parameters.Add("img_name", image.img_name);
+                            cmd.Parameters.Add("img_url", image.img_url);
+                            count += cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
+                        }
+                        cmd.Dispose();
+                        return count;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Add photo by job id error => {e.Message}");
+                    return 0;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
+        public int deleteImagesByJobId(int job_id)
+        {
+            using (var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using (var cmd = new OracleCommand(Constant.SqlCmd.AMP102.deleteByJobId, conn) { CommandType = CommandType.Text })
+                    {
+                        cmd.Parameters.Add("job_id", job_id);
+                        var result = cmd.ExecuteNonQuery();
+                        cmd.Dispose();
+                        return result;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"delete photo by job id error => {e.Message}");
                     return 0;
                 }
                 finally

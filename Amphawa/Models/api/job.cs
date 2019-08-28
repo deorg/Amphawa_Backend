@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Amphawa.Models.table;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,7 @@ namespace Amphawa.Models.api
         public string sect_id { get; set; }
         public string device_no { get; set; }
         public List<string> cate_id { get; set; }
+        public List<AMP102> images { get; set; }
         public string created_by { get; set; }
         public DateTime? created_time { get; set; }
         public string job_status { get; set; }

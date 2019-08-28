@@ -61,5 +61,13 @@ namespace Amphawa.Constant
             public const string deleteByJobId = "delete amp101 where job_id = :job_id";
             public const string deleteByCateId = "delete amp101 where cate_id = :cate_id";
         }
+        public static class AMP102
+        {
+            public const string getAll = "select job_id, img_name, img_url from amp102";
+            public const string getByJobId = "select job_id, img_name, img_url from amp102 where job_id = :job_id";
+            public const string add = "insert into amp102(job_id, img_name, img_url) values(:job_id, :img_name, :cate_id)";
+            public const string deleteByJobId = "delete amp102 where job_id = :job_id";
+            public const string deleteByImgName = "delete amp102 where img_name = :img_name";
+        }
     }
 }

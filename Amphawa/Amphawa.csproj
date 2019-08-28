@@ -201,6 +201,7 @@
     <Compile Include="Models\table\AMP100.cs" />
     <Compile Include="Models\table\AMP101.cs" />
     <Compile Include="Models\table\AMP021.cs" />
+    <Compile Include="Models\table\AMP102.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Department.cs" />
     <Compile Include="Services\Job.cs" />
@@ -261,8 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
-    <Folder Include="Images\jobs\" />
+    <Folder Include="images\jobs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

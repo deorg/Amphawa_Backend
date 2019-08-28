@@ -138,25 +138,34 @@ namespace Amphawa.Controllers
         [Route("api/job/photo/add")]
         public IHttpActionResult PostPhotos()
         {
+            int res = 0;
             try
             {
                 var files = HttpContext.Current.Request.Files.Count > 0 ?
                 HttpContext.Current.Request.Files : null;
                 if (files != null)
                 {
+                    List<AMP102> images = new List<AMP102>();
                     for (int i = 0; i<files.Count; i++)
                     {
                         var fileName = Path.GetFileName(files[i].FileName);
-                        var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Images/jobs"), fileName);
+                        var job_id = fileName.Split('_').First();
+                        var path = Path.Combine(HttpContext.Current.Server.MapPath("~/images/jobs"), fileName);
                         files[i].SaveAs(path);
+                        images.Add(new AMP102 { job_id = Int32.Parse(job_id), img_name = fileName, img_url = $"http://35.240.167.23/images/jobs/{fileName}" });
                     }
+                    if(images.Count > 0)
+                    {
+                        res = _job.addImage(images);
+                        Console.WriteLine("up load photo => " + res);
+                    }                   
                 }
             }
             catch(Exception e)
             {
                 Console.WriteLine("error => " + e.Message);
             }
-            return Ok();
+            return Ok(res);
         }
         [Route("api/job/update")]
         public IHttpActionResult PostUpdateJob([FromBody]m_Job value)
@@ -176,7 +185,8 @@ namespace Amphawa.Controllers
         {
             try
             {
-                var result = _job.deleteJobGroup(job_id);
+                var resJobGroup = _job.deleteJobGroup(job_id);
+                var resPhoto = _job.deleteImagesByJobId(job_id);
                 var res = _job.deleteJob(job_id);
                 return Ok(res);
                 //var result = _job.deleteJob(job_id);
