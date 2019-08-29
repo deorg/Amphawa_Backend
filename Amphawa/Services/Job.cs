@@ -460,6 +460,33 @@ namespace Amphawa.Services
                 }
             }
         }
+        public int deleteImagesByName(string name)
+        {
+            using(var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using(var cmd = new OracleCommand(Constant.SqlCmd.AMP102.deleteByImgName, conn) { CommandType = CommandType.Text })
+                    {
+                        cmd.Parameters.Add("img_name", name);
+                        var result = cmd.ExecuteNonQuery();
+                        cmd.Dispose();
+                        return result;
+                    }
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine($"delete photo by name error => {e.Message}");
+                    return 0;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
         public int deleteImagesByJobId(int job_id)
         {
             using (var conn = new OracleConnection(_connStr))

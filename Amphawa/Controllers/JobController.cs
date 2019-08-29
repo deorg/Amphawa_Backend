@@ -167,6 +167,31 @@ namespace Amphawa.Controllers
             }
             return Ok(res);
         }
+        [Route("api/job/photo/delete")]
+        public IHttpActionResult GetDeletePhoto(string photo)
+        {
+            try
+            {
+                var result = _job.deleteImagesByName(photo);
+                if (result > 0)
+                {
+                    var file = new FileInfo(Path.Combine(HttpContext.Current.Server.MapPath("~/images/jobs"), photo));
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                        return Ok("deleted");
+                    }
+                    else
+                        return BadRequest("file not exist");
+                }
+                else
+                    return BadRequest("not found image");
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [Route("api/job/update")]
         public IHttpActionResult PostUpdateJob([FromBody]m_Job value)
         {
@@ -189,13 +214,6 @@ namespace Amphawa.Controllers
                 var resPhoto = _job.deleteImagesByJobId(job_id);
                 var res = _job.deleteJob(job_id);
                 return Ok(res);
-                //var result = _job.deleteJob(job_id);
-                //if(result > 0)
-                //{
-                //    var res = _job.deleteJobGroup(job_id);
-                //    return Ok(res);
-                //}
-                //return Ok(result);
             }
             catch(Exception e)
             {
