@@ -294,6 +294,10 @@ namespace Amphawa.Services
                 try
                 {
                     conn.Open();
+                    if(value.created_by != null)
+                    {
+                        value.created_by = value.created_by.ToUpper();
+                    }
                     using (var cmd = new OracleCommand(Constant.SqlCmd.AMP100.add, conn) { CommandType = CommandType.Text })
                     {
                         cmd.Parameters.Add("job_date", value.job_date);
@@ -329,6 +333,10 @@ namespace Amphawa.Services
                 try
                 {
                     conn.Open();
+                    if(value.created_by != null)
+                    {
+                        value.created_by = value.created_by.ToUpper();
+                    }
                     using (var cmd = new OracleCommand(Constant.SqlCmd.AMP100.update, conn) { CommandType = CommandType.Text })
                     {
                         cmd.Parameters.Add("job_date", value.job_date);
