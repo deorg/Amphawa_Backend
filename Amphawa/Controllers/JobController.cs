@@ -111,6 +111,23 @@ namespace Amphawa.Controllers
                 return InternalServerError(e);
             }
         }
+        [Route("api/job")]
+        public IHttpActionResult GetJobByDesc(string str)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(str))
+                {
+                    var result = _job.getJobByDesc(str);
+                    return Ok(result);
+                }
+                return Ok(_job.getJob());
+            }
+            catch(Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
         [Route("api/job/add")]
         public IHttpActionResult PostAddJob([FromBody]m_Job value)
         {

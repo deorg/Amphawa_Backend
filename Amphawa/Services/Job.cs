@@ -239,6 +239,64 @@ namespace Amphawa.Services
                 }
             }
         }
+        public List<m_Job> getJobByDesc(string str)
+        {
+            using(var conn = new OracleConnection(_connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    using(var cmd = new OracleCommand(Constant.SqlCmd.AMP100.getByDesc, conn) { CommandType = CommandType.Text })
+                    {
+                        str = str.Replace(" ", "%");
+                        str = "%" + str + "%";
+                        cmd.Parameters.Add("job_desc", str);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            List<m_Job> data = new List<m_Job>();
+                            while (reader.Read())
+                            {
+                                data.Add(new m_Job
+                                {
+                                    job_id = reader.GetInt32(0),
+                                    job_date = reader[1] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(1),
+                                    job_desc = reader[2] == DBNull.Value ? string.Empty : reader.GetString(2),
+                                    solution = reader[3] == DBNull.Value ? string.Empty : reader.GetString(3),
+                                    dept_id = reader[4] == DBNull.Value ? string.Empty : getDeptById(reader.GetString(4)).dept_id + " " + getDeptById(reader.GetString(4)).dept_name,
+                                    sect_id = reader[5] == DBNull.Value ? string.Empty : getSectById(reader.GetString(5)).sect_id + " " + getSectById(reader.GetString(5)).sect_name,
+                                    device_no = reader[6] == DBNull.Value ? string.Empty : reader.GetString(6),
+                                    images = getImageByJobId(reader.GetInt32(0)),
+                                    created_by = reader[7] == DBNull.Value ? string.Empty : reader.GetString(7),
+                                    created_time = reader[8] == DBNull.Value ? null : (DateTime?)reader.GetDateTime(8),
+                                    job_status = reader[9] == DBNull.Value ? string.Empty : reader.GetString(9)
+                                });
+                            }
+                            foreach (var j in data)
+                            {
+                                data[data.IndexOf(j)].cate_id = getJobGroupById(j.job_id);
+                            }
+                            cmd.Dispose();
+                            reader.Dispose();
+                            return data;
+                        }
+                        cmd.Dispose();
+                        reader.Dispose();
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Get Jobs error => {e.Message}");
+                    return null;
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
         public AMP100 getJobById(int job_id)
         {
             using (var conn = new OracleConnection(_connStr))
