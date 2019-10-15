@@ -11,7 +11,7 @@ namespace Amphawa.Services
 {
     public class Job
     {
-        private const string _connStr = Constant.Database.Production.Connstring;
+        private const string _connStr = Constant.Database.Development.Connstring;
 
         #region Category
         public List<AMP010> getCategories()
